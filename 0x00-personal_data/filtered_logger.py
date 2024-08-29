@@ -51,3 +51,16 @@ class RedactingFormatter(logging.Formatter):
             self.REDACTION,
             message,
             self.SEPARATOR)
+
+
+def get_logger() -> logging.Logger:
+    """
+    Creates and configures a logger with a custom redacting formatter
+    """
+    logger = logging.getLogger("user_data")
+    stream_handler = logging.StreamHandler()
+    stream_handler.setFormatter(RedactingFormatter(fields=PII_FIELDS))
+    logger.setLevel(logging.INFO)
+    logger.propagate = False
+    logger.addHandler(stream_handler)
+    return logger
