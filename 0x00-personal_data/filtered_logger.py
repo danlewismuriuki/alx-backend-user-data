@@ -6,6 +6,7 @@ import os
 import re
 import logging
 from typing import List, Tuple
+import mysql.connector
 
 # import mysql.connector
 
@@ -64,3 +65,21 @@ def get_logger() -> logging.Logger:
     logger.propagate = False
     logger.addHandler(stream_handler)
     return logger
+
+
+def get_db() -> mysql.connector.connection.MySQLConnection:
+    """
+    Connects to a mysql database
+    """
+    # db_user = os.getenv('PERSONAL_DATA_DB_USERNAME', 'root')
+    # db_password = os.getenv('PERSONAL_DATA_DB_PASSWORD', '')
+    # db_host = os.getenv('PERSONAL_DATA_DB_HOST', 'localhost')
+    # db_name = os.getenv('PERSONAL_DATA_DB_NAME')
+
+    connector = mysql.connector.connect(
+        host=os.getenv('PERSONAL_DATA_DB_HOST'),
+        database=os.getenv('PERSONAL_DATA_DB_NAME'),
+        user=os.getenv('PERSONAL_DATA_DB_USERNAME'),
+        password=os.getenv('PERSONAL_DATA_DB_PASSWORD')
+    )
+    return connector
