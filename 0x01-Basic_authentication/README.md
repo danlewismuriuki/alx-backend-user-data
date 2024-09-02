@@ -1,43 +1,42 @@
-# Basic Authentication with Base64 Encoding
+# Simple API
 
-This project explains the concept of authentication, Base64 encoding, and how to implement Basic Authentication in HTTP requests. It also provides a simple guide on how to send an `Authorization` header using Basic Authentication.
+Simple HTTP API for playing with `User` model.
 
-## What Authentication Means
 
-**Authentication** is the process of verifying the identity of a user or entity. It ensures that only authorized users can access certain resources or data. Common methods of authentication include:
+## Files
 
-- **Password-based authentication**: Using a username and password.
-- **Token-based authentication**: Using tokens like JWT.
-- **Multi-factor authentication**: Combining two or more authentication methods, such as passwords and one-time codes.
+### `models/`
 
-Authentication is crucial for ensuring that sensitive information and resources are protected from unauthorized access.
+- `base.py`: base of all models of the API - handle serialization to file
+- `user.py`: user model
 
-## What Base64 Is
+### `api/v1`
 
-**Base64** is an encoding scheme that converts binary data (like images or credentials) into ASCII text. It is commonly used to encode data that needs to be transmitted over text-based protocols such as HTTP, email, or XML.
+- `app.py`: entry point of the API
+- `views/index.py`: basic endpoints of the API: `/status` and `/stats`
+- `views/users.py`: all users endpoints
 
-- Base64 encoding is *not* encryption; it is a reversible encoding method.
-- It uses a set of 64 characters (A-Z, a-z, 0-9, +, /) to represent binary data.
 
-### How to Encode a String in Base64
+## Setup
 
-To encode a string in Base64, follow these steps:
+```
+$ pip3 install -r requirements.txt
+```
 
-1. Convert the string to bytes.
-2. Encode the bytes using the Base64 algorithm.
-3. Convert the encoded bytes back to a string.
 
-**Example in Python**:
+## Run
 
-```python
-import base64
+```
+$ API_HOST=0.0.0.0 API_PORT=5000 python3 -m api.v1.app
+```
 
-# Original string
-original_string = "username:password"
 
-# Encode the string to Base64
-encoded_bytes = base64.b64encode(original_string.encode('utf-8'))
-encoded_string = encoded_bytes.decode('utf-8')
+## Routes
 
-print(encoded_string)  # Output: dXNlcm5hbWU6cGFzc3dvcmQ=
-
+- `GET /api/v1/status`: returns the status of the API
+- `GET /api/v1/stats`: returns some stats of the API
+- `GET /api/v1/users`: returns the list of users
+- `GET /api/v1/users/:id`: returns an user based on the ID
+- `DELETE /api/v1/users/:id`: deletes an user based on the ID
+- `POST /api/v1/users`: creates a new user (JSON parameters: `email`, `password`, `last_name` (optional) and `first_name` (optional))
+- `PUT /api/v1/users/:id`: updates an user based on the ID (JSON parameters: `last_name` and `first_name`)
