@@ -119,7 +119,8 @@ class BasicAuth(Auth):
         None: If any of the steps fail or the credentials are invalid.
 
     Parameters:
-        request (Request, optional): The request object containing the Authorization header.
+        request (Request, optional): The request object containing
+        the Authorization header.
 
     Usage:
         user = auth.current_user(request)
