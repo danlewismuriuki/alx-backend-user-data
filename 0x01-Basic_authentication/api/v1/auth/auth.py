@@ -38,7 +38,7 @@ class Auth:
         if 'Authorization' not in request.headers:
             return None
 
-        return request.headers['Authorization']
+        return request.headers.get("Authorization")
 
     def current_user(self, request=None) -> TypeVar('User'):
         """Public method to get the current user from a request."""
