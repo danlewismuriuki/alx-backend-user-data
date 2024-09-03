@@ -100,5 +100,47 @@ class BasicAuth(Auth):
         for user in users:
             if user.is_valid_password(user_pwd):
                 return user
-
         return None
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        """
+    Retrieves the User instance for a request using Basic Authentication.
+
+    This method performs the following steps:
+    1. Checks if the request is provided.
+    2. Extracts the Authorization header from the request.
+    3. Extracts the Base64 part from the Authorization header.
+    4. Decodes the Base64 string to retrieve user credentials.
+    5. Extracts the user email and password from the decoded credentials.
+    6. Finds and returns the User instance based on the email and password.
+
+    Returns:
+        User: The User instance if credentials are valid and a user is found.
+        None: If any of the steps fail or the credentials are invalid.
+
+    Parameters:
+        request (Request, optional): The request object containing the Authorization header.
+
+    Usage:
+        user = auth.current_user(request)
+    """
+        if request is None:
+            return None
+
+        auth_header = self.authorization_header(request)
+        if auth_header is None:
+            return None
+
+        extract_b64 = self.extract_base64_authorization_header(auth_header)
+        if extract_b64 is None:
+            return None
+
+        decode_b64 = self.decode_base64_authorization_header(extract_b64)
+        if decode_b64 is None:
+            return None
+
+        user_email, user_pwd = self.extract_user_credentials(decode_b64)
+        if user_email is None or user_pwd is None:
+            return None
+
+        return self.user_object_from_credentials(user_email, user_pwd)
