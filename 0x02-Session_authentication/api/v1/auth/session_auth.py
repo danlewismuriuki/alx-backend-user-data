@@ -14,6 +14,7 @@ The SessionAuth class is expected to implement session-based
 """
 from api.v1.auth.auth import Auth
 import uuid
+from models.user import User
 
 
 class SessionAuth(Auth):
@@ -57,3 +58,35 @@ class SessionAuth(Auth):
         user_id = self.user_id_by_session_id.get(session_id)
 
         return user_id
+
+    def current_user(self, request=None):
+        """
+    Retrieves the User instance associated with the
+    session ID from a request cookie.
+
+    This method takes a request object, retrieves the
+    session ID from the request's
+    cookies using the session_cookie method, then finds
+    the corresponding user ID
+    using the user_id_for_session_id method. Finally, it
+    retrieves the User instance
+    from the database using the user ID.
+
+    Args:
+        request (flask.Request, optional): The HTTP request
+        object from which to retrieve the session cookie.
+
+    Returns:
+        User: The User instance associated with the session ID
+        if it exists, otherwise None.
+    """
+        session_id = self.session_cookie(request)
+        if session_id is None:
+            return None
+
+        user_id = self.user_id_for_session_id(session_id)
+        if user_id is None:
+            return None
+
+        user = User.get(user_id)
+        return user
