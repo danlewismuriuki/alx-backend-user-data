@@ -55,10 +55,12 @@ class Auth:
     Retrieves the value of a specific cookie from the request.
 
     Args:
-        request (flask.Request, optional): The request object from which to retrieve the cookie.
-        
+        request (flask.Request, optional): The request object
+        from which to retrieve the cookie.
+
     Returns:
-        str: The value of the cookie named SESSION_NAME if present, or None if the request or cookie is not found.
+        str: The value of the cookie named SESSION_NAME if present,
+        or None if the request or cookie is not found.
     """
         if request is None:
             return None
