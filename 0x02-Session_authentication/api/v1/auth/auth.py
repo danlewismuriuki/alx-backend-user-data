@@ -4,6 +4,7 @@ Module to define the Auth class for managing API authentication.
 """
 from flask import request
 from typing import List, TypeVar
+import os
 
 
 class Auth:
@@ -48,3 +49,20 @@ class Auth:
     def current_user(self, request=None) -> TypeVar('User'):
         """Public method to get the current user from a request."""
         return None
+
+    def session_cookie(self, request=None):
+        """
+    Retrieves the value of a specific cookie from the request.
+
+    Args:
+        request (flask.Request, optional): The request object from which to retrieve the cookie.
+        
+    Returns:
+        str: The value of the cookie named SESSION_NAME if present, or None if the request or cookie is not found.
+    """
+        if request is None:
+            return None
+
+        session_name = os.getenv("SESSION_NAME", "_my_session_id")
+        session_cookie_id = request.cookies.get(session_name)
+        return session_cookie_id
