@@ -21,9 +21,9 @@ elif AUTH_TYPE == 'basic_auth':
 elif AUTH_TYPE == 'session_auth':
     from api.v1.auth.session_auth import SessionAuth
     auth = SessionAuth()
-else:
-    print(f"Unsupported AUTH_TYPE: {AUTH_TYPE} Default to None")
-    auth = None
+# else:
+#     print(f"Unsupported AUTH_TYPE: {AUTH_TYPE} Default to None")
+#     auth = None
 
 
 app = Flask(__name__)
