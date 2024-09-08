@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """ Module of Session authentication views
 """
-
+# from api.v1.views import app_views
 from flask import Blueprint, request, jsonify
 from models.user import User
 import os
 
-session_auth_bp = Blueprint('session_auth_bp', __name__, url_prefix='/auth_session')
+session_auth_bp = Blueprint(
+    'session_auth_bp', __name__)
 
 
 @session_auth_bp.route('/login', methods=['POST'], strict_slashes=False)
@@ -34,11 +35,12 @@ def login():
     if not password:
         return jsonify({"error": "password missing"}), 400
 
-    user = User.search(email=email)
+    users = User.search({"email": email})
 
-    if user is None:
+    if not users:
         return jsonify({"error": "no user found for this email"}), 400
 
+    user = users[0]
     if not user.is_valid_password(password):
         return jsonify({"error": "wrong password"}), 401
 
