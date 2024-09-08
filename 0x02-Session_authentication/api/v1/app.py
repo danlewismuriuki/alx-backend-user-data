@@ -9,7 +9,6 @@ from flask_cors import (CORS, cross_origin)
 import os
 from api.v1.views.session_auth import session_auth_bp  # This file
 
-
 auth = None
 AUTH_TYPE = getenv("AUTH_TYPE")
 
@@ -28,8 +27,10 @@ elif AUTH_TYPE == 'session_auth':
 
 
 app = Flask(__name__)
-app.register_blueprint(app_views)
-app.register_blueprint(session_auth_bp)  # This file
+# app.register_blueprint(app_views)
+app.register_blueprint(app_views, url_prefix='/api/v1')
+app.register_blueprint(
+    session_auth_bp, url_prefix='/auth_session')  # This file
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 
 
