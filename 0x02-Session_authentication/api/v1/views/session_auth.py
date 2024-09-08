@@ -6,8 +6,7 @@ from flask import Blueprint, request, jsonify
 from models.user import User
 import os
 
-session_auth_bp = Blueprint(
-    'session_auth_bp', __name__)
+session_auth_bp = Blueprint('session_auth_bp', __name__)
 
 
 @session_auth_bp.route('/login', methods=['POST'], strict_slashes=False)
@@ -20,9 +19,9 @@ def login():
 
     Returns:
         JSON: {
-            "error": "email missing" | "password missing" | 
-                     "no user found for this email" | 
-                     "wrong password" | 
+            "error": "email missing" | "password missing" |
+                     "no user found for this email" |
+                     "wrong password" |
                      User information
         }
     """
