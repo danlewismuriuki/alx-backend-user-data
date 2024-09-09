@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+""" Database for ORM """
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String
 
@@ -38,3 +38,9 @@ class User(Base):
     hashed_password = Column(String(250), nullable=False)
     session_id = Column(String(250), nullable=False)
     reset_token = Column(String(250), nullable=False)
+
+    def __init__(self, email, hashed_password, session_id='', reset_token=''):
+        self.email = email
+        self.hashed_password = hashed_password
+        self.session_id = session_id
+        self.reset_token = reset_token
