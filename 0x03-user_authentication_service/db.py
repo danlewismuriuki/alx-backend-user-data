@@ -61,17 +61,18 @@ class DB:
             InvalidRequestError: If the query arguments are invalid.
         """
 
-        try:
-            # Attempt to query the User table using filter_by with
-            # the provided keyword arguments
-            user = self._session.query(User).filter_by(**kwargs).first()
+        # Attempt to query the User table using filter_by with
+        # the provided keyword arguments
+        if not kwargs:
+            return InvalidRequestError
 
-            # If no user is found, raise NoResultFound
-            if user is None:
-                raise NoResultFound("No user found with the given criteria.")
+        column_name = User.__table__.columns.keys()
+        for key in kwargs.keys():
+            if key not in column_name:
+                raise InvalidRequestError
 
-            return user
+        user = self._session.query(User).filter_by(**kwargs).first()
+        if user is None:
+            raise NoResultFound
 
-        except InvalidRequestError:
-            # Raise InvalidRequestError if the query arguments are invalid
-            raise InvalidRequestError("Invalid query arguments provided.")
+        return user
