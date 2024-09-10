@@ -77,30 +77,10 @@ class DB:
 
         return user
 
-    def update_user(self, user_id, **kwargs) -> None:
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """ Update users attributes
+        Returns: None
         """
-    Update a user's attributes in the database.
-
-    This method allows updating multiple attributes of a user in the database.
-    It uses the `find_user_by` method to locate the user by their `user_id`,
-    and then updates the user's attributes based on the provided keyword
-        arguments.
-
-    If any provided keyword argument does not correspond to an existing column
-    in the `User` table, a `ValueError` is raised.
-
-    Args:
-        user_id (int): The unique identifier of the user to update.
-        **kwargs: Arbitrary keyword arguments representing the attributes
-            to be updated
-                  and their new values. For example,
-                    `email="new_email@example.com"`.
-
-    Raises:
-        ValueError: If any of the provided `kwargs` keys do not match
-            any column name in
-                    the `User` table.
-                    """
         user = self.find_user_by(id=user_id)
 
         column_names = User.__table__.columns.keys()
