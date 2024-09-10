@@ -101,10 +101,9 @@ class DB:
             any column name in
                     the `User` table.
                     """
-        user = self .find_user_by(id=user_id)
+        user = self.find_user_by(id=user_id)
 
         column_names = User.__table__.columns.keys()
-
         for key in kwargs.keys():
             if key not in column_names:
                 raise ValueError
