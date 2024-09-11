@@ -2,6 +2,7 @@
 """API Routes for Authentication Service"""
 from flask import jsonify, Flask, request
 from auth import Auth
+from typing import boolean
 app = Flask(__name__)
 
 AUTH = Auth()
