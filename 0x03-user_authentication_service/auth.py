@@ -22,7 +22,7 @@ def _hash_password(password: str) -> bytes:
     return hashed.decode('utf-8')
 
 
-def _generate_uuid(id: str) -> str:
+def _generate_uuid() -> str:
     """
     function should return a string representation of a new UUID.
     Use the uuid module.
