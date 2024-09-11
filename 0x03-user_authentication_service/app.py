@@ -19,7 +19,7 @@ def hello_world():
 
 
 @app.route('/users', methods=['POST'])
-def users():
+def users() -> str:
     """ask, you will
     implement the end-point to register a user.
     """
@@ -30,9 +30,10 @@ def users():
         return jsonify({"message": "email and password are required"}), 400
     try:
         user = AUTH.register_user(email, password)
-        return jsonify({"email": user.email, "message": "user created"}), 200
     except ValueError:
-        return jsonify({"message": "{user.email} already reegistered"}), 400
+        return jsonify({"message": "email already registered"}), 400
+
+    return jsonify({"email": {user.email}, "message": "user created"}), 200
 
 
 if __name__ == "__main__":
