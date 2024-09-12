@@ -3,7 +3,7 @@ from db import DB
 import bcrypt
 from user import User
 from sqlalchemy.orm.exc import NoResultFound
-from sqlalchemy.exc import InvalidRequestError
+# from sqlalchemy.exc import InvalidRequestError
 import uuid
 from typing import Union
 
@@ -94,13 +94,12 @@ class Auth:
         return user
 
     def destroy_session(self, user_id: int) -> None:
-        """
-        Destroys a  user's session by setting the session_id to None.
-        """
+        """Updates the corresponding user's session ID to None"""
         try:
             user = self._db.find_user_by(id=user_id)
         except NoResultFound:
             return None
+
         self._db.update_user(user.id, session_id=None)
 
         return None
