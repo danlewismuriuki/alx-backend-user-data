@@ -108,10 +108,8 @@ class Auth:
         try:
             user = self._db.find_user_by(id=user_id)
         except (NoResultFound, InvalidRequestError):
-            return None
-        try:
-            self._db.update_user(user_id, session_id=None)
-        except:
-            Exception
+            return
+
+        self._db.update_user(user_id, session_id=None)
 
         return None
