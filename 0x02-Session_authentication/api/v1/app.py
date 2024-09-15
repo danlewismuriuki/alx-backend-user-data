@@ -64,12 +64,15 @@ def before_request() -> str:
         return
 
     request.current_user = auth.current_user(request)
+    print(f"Request path: {request.path}")
+    print(f"Current user set to: {request.current_user}")
 
     excluded_paths = ['/api/v1/status/',
                       '/api/v1/unauthorized/',
                       '/api/v1/forbidden/',
                       '/api/v1/auth_session/login/']
 
+    print(f"Excluded paths: {excluded_paths}")
     if not auth.require_auth(request.path, excluded_paths):
         return
 
@@ -77,9 +80,11 @@ def before_request() -> str:
         auth.authorization_header(request) is None and
         auth.session_cookie(request) is None
     ):
+        print("Authorization or session cookie missing, aborting with 401")
         abort(401)
 
     if auth.current_user(request) is None:
+        print("Current user is None, aborting with 403")
         abort(403)
 
 

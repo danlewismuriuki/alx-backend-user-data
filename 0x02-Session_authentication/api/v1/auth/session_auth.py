@@ -56,6 +56,7 @@ class SessionAuth(Auth):
             return None
 
         user_id = self.user_id_by_session_id.get(session_id)
+        print(f"User ID for session ID {session_id}: {user_id}")
 
         return user_id
 
@@ -80,13 +81,21 @@ class SessionAuth(Auth):
         User: The User instance associated with the session ID
         if it exists, otherwise None.
     """
-        session_id = self.session_cookie(request)
-        if session_id is None:
+        if request is None:
             return None
 
+        session_id = self.session_cookie(request)
+        print(f"Retrieved session ID from cookie: {session_id}")
+
+        if session_id is None:
+            return None
+        print(f"Session ID from cookie: {session_id}")
+
         user_id = self.user_id_for_session_id(session_id)
+        print(f"User ID for session ID: {user_id}")
         if user_id is None:
             return None
 
         user = User.get(user_id)
+        print(f"Fetched user with ID {user_id}: {user}")
         return user
